@@ -4,6 +4,8 @@ jQuery( document ).ready(function() {
   TO DO
    */
 
+   // ADD ACCURACY (add event listener to #field and compare when circle/not-circle is clicked)
+
    // ADD TRACKING FOR HIGH SCORE AND GAMES PLAYED. STORE AS COOKIE/LOCAL/SESSION
 
    // ADD CHECKBOX FOR MADNESS MODE
@@ -11,6 +13,8 @@ jQuery( document ).ready(function() {
    // ADD DIFFICULTY CHECK FOR NON-MADNESS MODE (circleLifetime to 1000 HARD 2000 NORMAL 3000 EASY)
 
    // IF IN MADNESS MODE, REMOVE OPTION FOR DIFFICULTY
+
+   // FINALIZE HOW GAME WILL PROGRESS
 
    // REMOVE WINDOW RESIZE FUNCTION IF UNEEDED (at end)
 
@@ -23,11 +27,13 @@ jQuery( document ).ready(function() {
   var madnessMode = 0;
 
   var smallCount = 0;
-  var smallClicked = 0;
   var mediumCount = 0;
-  var mediumClicked = 0;
   var largeCount = 0;
+
+  var smallClicked = 0;
+  var mediumClicked = 0;
   var largeClicked = 0;
+  var misClicks = 0;
 
   const smallValue = 3;
   const mediumValue = 2;
@@ -47,13 +53,15 @@ jQuery( document ).ready(function() {
   var scoreNode = document.createTextNode('0');
   document.getElementById('score').appendChild(scoreNode);
   var timeLogNode = document.createTextNode('0');
-  document.getElementById('time').appendChild(timeLogNode);
+  document.getElementById('time-output').appendChild(timeLogNode);
   var scoreLogNode = document.createTextNode('0');
-  document.getElementById('scored').appendChild(scoreLogNode);
+  document.getElementById('score-output').appendChild(scoreLogNode);
   var clicksLogNode = document.createTextNode('0');
-  document.getElementById('clicked').appendChild(clicksLogNode);
-  var misclicksLogNode = document.createTextNode('0');
-  document.getElementById('missed').appendChild(misclicksLogNode);
+  document.getElementById('clicked-output').appendChild(clicksLogNode);
+  var missedCirclesLogNode = document.createTextNode('0');
+  document.getElementById('missed-output').appendChild(missedCirclesLogNode);
+  var accuracyLogNode = document.createTextNode('0');
+  document.getElementById('accuracy-output').appendChild(accuracyLogNode);
 
   // var width = window.innerWidth;
   // var height = window.innerHeight;
@@ -114,7 +122,7 @@ jQuery( document ).ready(function() {
     timeLogNode.data = 0;
     scoreLogNode.data = 0;
     clicksLogNode.data = 0;
-    misclicksLogNode.data = 0;
+    missedCirclesLogNode.data = 0;
   }
 
   // CALCULATE SCORE
@@ -309,7 +317,9 @@ jQuery( document ).ready(function() {
     timeLogNode.data = time;
     scoreLogNode.data = score;
     clicksLogNode.data = smallClicked + mediumClicked + largeClicked;
-    misclicksLogNode.data = (smallCount - smallClicked) + (mediumCount - mediumClicked) + (largeCount - largeClicked);
+    missedCirclesLogNode.data = (smallCount - smallClicked) + (mediumCount - mediumClicked) + (largeCount - largeClicked);
+    let accuracy = (((smallClicked + mediumClicked + largeClicked) / (smallClicked + mediumClicked + largeClicked + misClicks)) * 100)
+    accuracyLogNode.data = Math.round(accuracy * 100) / 100;
     // OPEN SCORE MODAL
     modalScore.classList.remove("hidden");
     modalOverlay.classList.remove("hidden");
@@ -361,6 +371,17 @@ jQuery( document ).ready(function() {
 
   // ADDING EVENT LISTENER TO WINDOW FOR RESIZING
   // window.addEventListener("resize", onresize);
+
+  // ADDING EVENT LISTENER TO FIELD FOR CLICK ACCURACY
+  let field = document.getElementById('field');
+  field.addEventListener('click', function(event) {
+    event.preventDefault();
+    // LOG MISSED CLICK
+    if (gameActive && event.target.id === "field") {
+      misClicks++;
+    }
+    return true;
+  });
 
   // ADDING EVENT LISTENER TO PLAY BUTTON [MODAL-PLAY]
   let playBtn = document.getElementById('play-button');
