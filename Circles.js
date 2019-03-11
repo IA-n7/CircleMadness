@@ -1,6 +1,18 @@
 jQuery( document ).ready(function() {
 
   /*
+  TO DO
+   */
+
+   // ADD CHECKBOX FOR MADNESS MODE
+
+   // ADD DIFFICULTY CHECK FOR NON-MADNESS MODE (circleLifetime to 1000 HARD 2000 NORMAL 3000 EASY)
+
+   // IF IN MADNESS MODE, REMOVE OPTION FOR DIFFICULTY
+
+   // REMOVE WINDOW RESIZE FUNCTION IF UNEEDED (at end)
+
+  /*
   STATE GLOBALS
    */
 
@@ -125,6 +137,9 @@ jQuery( document ).ready(function() {
     let small = document.createElement("div");
     // ADD STYLING CLASS
     small.className = 'smallCircle';
+    // ADD UNIQUE ID
+    let smallID = randomID();
+    small.id = smallID;
     // SET RANDOM TOP & BOTTOM STYLES
     let top = randomNum();
     let left = randomNum();
@@ -147,9 +162,16 @@ jQuery( document ).ready(function() {
       small.parentNode.removeChild(small);
       return true;
     });
+    // REMOVE CIRCLE AFTER circleLifetime
+    // CHECK FOR MADNESS MODE
     if (!madnessMode) {
       setTimeout(function(){
-        small.parentNode.removeChild(small);
+        // CHECK IF ELEMENT HAS BEEN CLICKED
+        let smallExist = document.getElementById(smallID);
+        if (smallExist) {
+          // REMOVE ELEMENT
+          small.parentNode.removeChild(small);
+        }
       }, circleLifetime);
     }
     return true;
@@ -160,6 +182,9 @@ jQuery( document ).ready(function() {
     let medium = document.createElement("div");
     // ADD STYLING CLASS
     medium.className = 'mediumCircle';
+    // ADD UNIQUE ID
+    let mediumID = randomID();
+    medium.id = mediumID;
     // SET RANDOM TOP & BOTTOM STYLES
     let top = randomNum();
     let left = randomNum();
@@ -182,9 +207,16 @@ jQuery( document ).ready(function() {
       medium.parentNode.removeChild(medium);
       return true;
     });
+    // REMOVE CIRCLE AFTER circleLifetime
+    // CHECK FOR MADNESS MODE
     if (!madnessMode) {
       setTimeout(function(){
-        medium.parentNode.removeChild(medium);
+        // CHECK IF ELEMENT HAS BEEN CLICKED
+        let mediumExist = document.getElementById(mediumID);
+        if (mediumExist) {
+          // REMOVE ELEMENT
+          medium.parentNode.removeChild(medium);
+        }
       }, circleLifetime);
     }
     return true;
@@ -195,6 +227,9 @@ jQuery( document ).ready(function() {
     let large = document.createElement("div");
     // ADD STYLING CLASS
     large.className = 'largeCircle';
+    // ADD UNIQUE ID
+    let largeID = randomID();
+    large.id = largeID;
     // SET RANDOM TOP & BOTTOM STYLES
     let top = randomNum();
     let left = randomNum();
@@ -218,9 +253,15 @@ jQuery( document ).ready(function() {
       return true;
     });
     // REMOVE CIRCLE AFTER circleLifetime
+    // CHECK FOR MADNESS MODE
     if (!madnessMode) {
       setTimeout(function(){
-        large.parentNode.removeChild(large);
+        // CHECK IF ELEMENT HAS BEEN CLICKED
+        let largeExist = document.getElementById(largeID);
+        if (largeExist) {
+          // REMOVE ELEMENT
+          large.parentNode.removeChild(large);
+        }
       }, circleLifetime);
     }
     return true;
