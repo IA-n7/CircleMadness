@@ -1,52 +1,119 @@
-.field {
+.hidden {
+  display: none !important;
+}
+
+#field {
   width: 100%;
   height: 100%;
   margin: 0px;
   padding: 0px;
   background-color: #ffffff;
+  z-index: 10;
 }
 
-.modal-play {
-
+.start {
+  color: white;
+  background-color: #000000;
+  font-size: 20px;
+  font-weight: 800;
+  width: 100px;
+  border-radius: 15px;
+  border: 7px outset DeepSkyBlue;
+  padding: 10px 5px 4px 5px !important;
+  transition: all 0.2s linear;
+  -webkit-transition: all 0.2s linear;
+}
+.start:hover {
+  width: 120px;
+  border-color: OrangeRed;
+  border-style: inset;
+}
+.start:active {
+  border-color: ForestGreen;
 }
 
-.modal-score {
-
+.text {
+  padding-bottom: 20px !important;
 }
 
-.modal-overlay {
-
+#modal-play, #modal-score {
+  z-index: 30;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #ffffff;
+  transform: translatey(-50%) translatex(-50%);
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 1000;
+  border: 7px outset DeepSkyBlue;
+  border-radius: 8px;
+  min-height: 300px;
+  overflow-y: auto;
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.info-bar {
-
+#modal-area {
+  font-family: "Aldrich";
+  color: #000000;
+  z-index: 30;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
 }
 
-#score {
-
+#modal-overlay {
+  z-index: 20;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  content: "";
+  background: rgba(0,0,0,.6);
+  position: fixed;
 }
 
-#timer {
-  
+#info-bar {
+  font-family: "Aldrich";
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: row;
+  align-items: center;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 200px;
+  height: 30px;
+  border-bottom-left-radius: 20px;
+  z-index: 100;
+  color: white;
+  background-color: #000000;
+}
+
+.smallCircle, .mediumCircle, .largeCircle {
+  border-radius: 50%;
+  position: absolute;
 }
 
 .smallCircle {
   height: 10px;
   width: 10px;
-  background-color: royalblue;
-  border-radius: 50%;
+  background-color: RoyalBlue;
 }
 
 .mediumCircle {
   height: 20px;
   width: 20px;
-  background-color: forestgreen;
-  border-radius: 50%;
+  background-color: ForestGreen;
 }
 
 .largeCircle {
   height: 30px;
   width: 30px;
-  background-color: orangered;
-  border-radius: 50%;
+  background-color: OrangeRed;
 }

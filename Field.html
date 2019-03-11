@@ -1,19 +1,28 @@
-<div class="field">
+<div id="field">
   <!-- SCORE AND TIMER -->
-  <div class="info-bar">
-    <span id="score"></span>
-    <span id="timer"></span>
-  </div>
+  <div id="info-bar">
+    <span>Score: <span id="score"></span></span>
+    <span>Time: <span id="timer"></span></span>
+  </div> <!-- END SCORE AND TIMER -->
 
   <!-- MODAL AREA -->
-  <div class="modal-overlay">
-    <div class="modal-play">
-      <button id="play-button" type="button" name="play-button" value="1" onClick={play}>Play</button>
-    </div>
+  <div id="modal-area">
+    <div id="modal-play">
+      <p class="text">Welcome to the game!</p>
+      <p class="text">Click fast!</p>
+      <button id="play-button" class="start" type="button" name="play-button" value="1">PLAY</button>
+    </div> <!-- END PLAY MODAL -->
 
-    <div class="modal-score">
-      <button id="play-button" type="button" name="play-button" value="1" onClick={play}>Play</button>
-    </div>
-  </div>
+    <div id="modal-score" class="hidden">
+      <p class="text">The end!</p>
+      <p id="scored">Score: <span id="score-output"></span></p>
+      <p id="time">Time: <span id="time-output"></span></p>
+      <p id="clicked">Cirles Clicked: <span id="clicked-output"></span></p>
+      <p id="missed">Circles Missed: <span id="missed-output"></span></p>
+      <button id="play-button2" class="start" type="button" name="play-button" value="1">PLAY</button>
+    </div> <!-- END SCORE MODAL -->
+  </div> <!-- END MODAL AREA -->
+  <!-- MODAL OVERLAY -->
+  <div id="modal-overlay"></div>
 
-</div>
+</div> <!-- END FIELD -->
