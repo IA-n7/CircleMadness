@@ -4,8 +4,6 @@ jQuery( document ).ready(function($) {
   TO DO
    */
 
-   // STOP TEXT HIGHLIGHTING
-
    // FIX CIRCLE GENERATION FOR SCORE/TIME MENU
 
    // ADD TRACKING FOR HIGH SCORE AND GAMES PLAYED. STORE AS COOKIE/LOCAL/SESSION
@@ -95,9 +93,29 @@ jQuery( document ).ready(function($) {
   //    height = e.target.innerHeight;
   // }
 
-  // RANDOM %-NUMBER FUNCTION
+  // RANDOM %-NUMBER FUNCTIONS
   function randomNum () {
     return Math.floor(Math.random() * 100);
+  }
+
+  function randomTop () {
+    let num;
+    do {
+      num = randomNum();
+    }
+    while (num < 3.7);
+
+    return num;
+  }
+
+  function randomLeft () {
+    let num;
+    do {
+      num = randomNum();
+    }
+    while (num < 0.2);
+
+    return num;
   }
 
   // RANDOM ID-NUMBER FUNCTION
@@ -153,13 +171,11 @@ jQuery( document ).ready(function($) {
     let smallID = randomID();
     small.id = smallID;
     // SET RANDOM TOP & BOTTOM STYLES
-    let top = randomNum();
-    let left = randomNum();
+    let top = randomTop();
+    let left = randomLeft();
     // BOUNDARY CHECKS TO KEEP CIRCLE WITHIN GAME FIELD
     if (top > 98.7) {top = 98.7;}
-    if (top < 0.3) {top = 0.3;}
     if (left > 99) {left = 99;}
-    if (left < 0.2) {left = 0.2;}
     small.setAttribute("style", `top:${top}%; left:${left}%;`);
     // INSERT CIRCLE + INCREASE COUNT
     let field = document.getElementById("field");
@@ -197,13 +213,11 @@ jQuery( document ).ready(function($) {
     let mediumID = randomID();
     medium.id = mediumID;
     // SET RANDOM TOP & BOTTOM STYLES
-    let top = randomNum();
-    let left = randomNum();
+    let top = randomTop();
+    let left = randomLeft();
     // BOUNDARY CHECKS TO KEEP CIRCLE WITHIN GAME FIELD
     if (top > 97.5) {top = 97.5;}
-    if (top < 0.3) {top = 0.3;}
     if (left > 98) {left = 98;}
-    if (left < 0.2) {left = 0.2;}
     medium.setAttribute("style", `top:${top}%; left:${left}%;`);
     // INSERT CIRCLE + INCREASE COUNT
     let field = document.getElementById("field");
@@ -241,13 +255,11 @@ jQuery( document ).ready(function($) {
     let largeID = randomID();
     large.id = largeID;
     // SET RANDOM TOP & BOTTOM STYLES
-    let top = randomNum();
-    let left = randomNum();
+    let top = randomTop();
+    let left = randomLeft();
     // BOUNDARY CHECKS TO KEEP CIRCLE WITHIN GAME FIELD
     if (top > 96.3) {top = 96.3;}
-    if (top < 0.3) {top = 0.3;}
     if (left > 97.2) {left = 97.2;}
-    if (left < 0.2) {left = 0.2;}
     large.setAttribute("style", `top:${top}%; left:${left}%;`);
     // INSERT CIRCLE + INCREASE COUNT
     let field = document.getElementById("field");
