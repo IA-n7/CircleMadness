@@ -4,6 +4,8 @@ jQuery( document ).ready(function() {
   TO DO
    */
 
+   // ADD TRACKING FOR HIGH SCORE AND GAMES PLAYED. STORE AS COOKIE/LOCAL/SESSION
+
    // ADD CHECKBOX FOR MADNESS MODE
 
    // ADD DIFFICULTY CHECK FOR NON-MADNESS MODE (circleLifetime to 1000 HARD 2000 NORMAL 3000 EASY)
@@ -117,7 +119,8 @@ jQuery( document ).ready(function() {
 
   // CALCULATE SCORE
   function scoring () {
-    scoreNode.data = (smallClicked * smallValue) + (mediumClicked * mediumValue) + (largeClicked * largeValue);
+    score = (smallClicked * smallValue) + (mediumClicked * mediumValue) + (largeClicked * largeValue);
+    scoreNode.data = score;
     return true;
   }
 
@@ -321,9 +324,8 @@ jQuery( document ).ready(function() {
       // GAME CONDITIONS
       return function() {
         // SET timeNode AND INCREMENT GAME TIME
-        timeNode.data = time;
         time++;
-
+        timeNode.data = time;
         // FIRST LEVEL, LARGE CIRCLES ONLY (EASY)
         if (time <= 15) {
           largeCircle();
