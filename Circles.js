@@ -1,10 +1,12 @@
-jQuery( document ).ready(function() {
+jQuery( document ).ready(function($) {
 
   /*
   TO DO
    */
 
-   // ADD ACCURACY (add event listener to #field and compare when circle/not-circle is clicked)
+   // STOP TEXT HIGHLIGHTING
+
+   // FIX CIRCLE GENERATION FOR SCORE/TIME MENU
 
    // ADD TRACKING FOR HIGH SCORE AND GAMES PLAYED. STORE AS COOKIE/LOCAL/SESSION
 
@@ -146,9 +148,8 @@ jQuery( document ).ready(function() {
   function smallCircle () {
     // CREATE CIRCLE ELEMENT
     let small = document.createElement("div");
-    // ADD STYLING CLASS
+    // ADD STYLING CLASS AND UNIQUE ID
     small.className = 'smallCircle';
-    // ADD UNIQUE ID
     let smallID = randomID();
     small.id = smallID;
     // SET RANDOM TOP & BOTTOM STYLES
@@ -164,7 +165,7 @@ jQuery( document ).ready(function() {
     let field = document.getElementById("field");
     field.appendChild(small);
     smallCount++;
-    // ADD EVENT LISTENER TO ELEMENT
+    // ADD EVENT LISTENER TO ELEMENT FOR REMOVAL
     small.addEventListener('click', function(event) {
       // INCREMENT CLICKED ELEMENTS AND UPDATE SCORE
       smallClicked++;
@@ -191,9 +192,8 @@ jQuery( document ).ready(function() {
   function mediumCircle () {
     // CREATE CIRCLE ELEMENT
     let medium = document.createElement("div");
-    // ADD STYLING CLASS
+    // ADD STYLING CLASS AND UNIQUE ID
     medium.className = 'mediumCircle';
-    // ADD UNIQUE ID
     let mediumID = randomID();
     medium.id = mediumID;
     // SET RANDOM TOP & BOTTOM STYLES
@@ -209,7 +209,7 @@ jQuery( document ).ready(function() {
     let field = document.getElementById("field");
     field.appendChild(medium);
     mediumCount++;
-    // ADD EVENT LISTENER TO ELEMENT
+    // ADD EVENT LISTENER TO ELEMENT FOR REMOVAL
     medium.addEventListener('click', function(event) {
       // INCREMENT CLICKED ELEMENTS AND UPDATE SCORE
       mediumClicked++;
@@ -236,9 +236,8 @@ jQuery( document ).ready(function() {
   function largeCircle () {
     // CREATE CIRCLE ELEMENT
     let large = document.createElement("div");
-    // ADD STYLING CLASS
+    // ADD STYLING CLASS AND UNIQUE ID
     large.className = 'largeCircle';
-    // ADD UNIQUE ID
     let largeID = randomID();
     large.id = largeID;
     // SET RANDOM TOP & BOTTOM STYLES
@@ -254,7 +253,7 @@ jQuery( document ).ready(function() {
     let field = document.getElementById("field");
     field.appendChild(large);
     largeCount++;
-    // ADD EVENT LISTENER TO ELEMENT
+    // ADD EVENT LISTENER TO ELEMENT FOR REMOVAL
     large.addEventListener('click', function(event) {
       // INCREMENT CLICKED ELEMENTS AND UPDATE SCORE
       largeClicked++;
@@ -314,7 +313,7 @@ jQuery( document ).ready(function() {
     // STOP TIMER
     clearInterval(timerId);
     // LOG ALL PLAY DATA IN SCORE MODAL
-    timeLogNode.data = time;
+    timeLogNode.data = time-1;
     scoreLogNode.data = score;
     clicksLogNode.data = smallClicked + mediumClicked + largeClicked;
     missedCirclesLogNode.data = (smallCount - smallClicked) + (mediumCount - mediumClicked) + (largeCount - largeClicked);
@@ -399,6 +398,10 @@ jQuery( document ).ready(function() {
     // INITIALIZE GAME
     play();
     return true;
+  });
+
+  $('html, body').bind('pointerup pointerdown mouseup mousedown', function(event) {
+    event.preventDefault();
   });
 
 }); // END DOCUMENT READY
