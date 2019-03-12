@@ -4,11 +4,7 @@ jQuery( document ).ready(function($) {
   TO DO
    */
 
-   // FIX CIRCLE GENERATION FOR SCORE/TIME MENU
-
    // ADD TRACKING FOR HIGH SCORE AND GAMES PLAYED. STORE AS COOKIE/LOCAL/SESSION
-
-   // ADD CHECKBOX FOR MADNESS MODE
 
    // ADD DIFFICULTY CHECK FOR NON-MADNESS MODE (circleLifetime to 1000 HARD 2000 NORMAL 3000 EASY)
 
@@ -159,6 +155,22 @@ jQuery( document ).ready(function($) {
     document.getElementsByClassName("smallCircle").remove();
   }
 
+  // CHECK FOR CHECKBOXES ON CLICK
+  function isCheckBox(event) {
+    if (event.target.id === "madness" ||
+        event.target.id === "madness-label" ||
+        event.target.id === "hard" ||
+        event.target.id === "hard-label" ||
+        event.target.id === "normal" ||
+        event.target.id === "normal-label" ||
+        event.target.id === "easy" ||
+        event.target.id === "easy-label") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
   /*
   CIRCLE GENERATION FUNCTIONS
    */
@@ -200,6 +212,7 @@ jQuery( document ).ready(function($) {
           // REMOVE ELEMENT
           small.parentNode.removeChild(small);
         }
+        return true;
       }, circleLifetime);
     }
     return true;
@@ -242,6 +255,7 @@ jQuery( document ).ready(function($) {
           // REMOVE ELEMENT
           medium.parentNode.removeChild(medium);
         }
+        return true;
       }, circleLifetime);
     }
     return true;
@@ -284,6 +298,7 @@ jQuery( document ).ready(function($) {
           // REMOVE ELEMENT
           large.parentNode.removeChild(large);
         }
+        return true;
       }, circleLifetime);
     }
     return true;
@@ -296,6 +311,12 @@ jQuery( document ).ready(function($) {
   // ACTIVATE GAME
   function play () {
     gameActive = 1;
+    // CHECK FOR MADNESS MODE
+    if (document.getElementById('madness').checked) {
+      madnessMode = 1;
+    } else {
+      madnessMode = 0;
+    }
     // CLEAR GAME FIELD FOR MADNESS MODE
     if (madnessMode) {
       clearCircles();
@@ -371,9 +392,10 @@ jQuery( document ).ready(function($) {
         if (time >= 100) {
 
         }
-
+        return true;
       };
     }()), 1000);
+    return true;
   }
 
   /*
@@ -386,6 +408,10 @@ jQuery( document ).ready(function($) {
   // ADDING EVENT LISTENER TO FIELD FOR CLICK ACCURACY
   let field = document.getElementById('field');
   field.addEventListener('click', function(event) {
+    // EXCEPTION FOR CHECKBOXES
+    if (isCheckBox(event)) {
+      return true;
+    }
     event.preventDefault();
     // LOG MISSED CLICK
     if (gameActive && event.target.id === "field") {
@@ -412,8 +438,14 @@ jQuery( document ).ready(function($) {
     return true;
   });
 
+  // ADDING EVENT LISTENER TO PAGE TO DISABLE/PREVENT TEXT HIGHLIGHTING
   $('html, body').bind('pointerup pointerdown mouseup mousedown', function(event) {
+    // EXCEPTION FOR CHECKBOXES
+    if (isCheckBox(event)) {
+      return true;
+    }
     event.preventDefault();
+    return true;
   });
 
 }); // END DOCUMENT READY

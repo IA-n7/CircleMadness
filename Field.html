@@ -8,13 +8,24 @@
   <!-- MODAL AREA -->
   <div id="modal-area">
     <div id="modal-play">
-      <p class="text">Welcome to the game!</p>
-      <p class="text">Click fast!</p>
+      <div id="text-play">
+        <p>Welcome to the game!</p>
+        <p>Click the circles!</p>
+        <p>Fast!</p>
+      </div>
+      <input type="checkbox" id="easy" name="Easy" value="Easy">
+      <label for="easy" id="easy-label">Easy</label>
+      <input type="checkbox" id="normal" name="Normal" value="Normal">
+      <label for="normal" id="normal-label">Normal</label>
+      <input type="checkbox" id="hard" name="Hard" value="Hard">
+      <label for="hard" id="hard-label">Hard</label>
+      <input type="checkbox" id="madness" name="MadnessMode" value="Madness">
+      <label for="madness" id="madness-label">Madness Mode</label>
       <button id="play-button" class="start" type="button" name="play-button" value="1">PLAY</button>
     </div> <!-- END PLAY MODAL -->
 
     <div id="modal-score" class="hidden">
-      <p class="text">The end!</p>
+      <p id="text-score">The end!</p>
       <p id="scored" class="score-text">Score: <span id="score-output"></span></p>
       <p id="time" class="score-text">Time: <span id="time-output"></span></p>
       <p id="clicked" class="score-text">Cirles Clicked: <span id="clicked-output"></span></p>
