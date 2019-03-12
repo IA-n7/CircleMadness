@@ -4,10 +4,11 @@ jQuery( document ).ready(function($) {
   TO DO
    */
 
+   // FIND AN EASIER (LESS HEAVY) WAY OF UNCHECKING DIFFICULTY CHECKBOXES
+
    // ADD TRACKING FOR HIGH SCORE AND GAMES PLAYED. STORE AS COOKIE/LOCAL/SESSION
 
    // FINALIZE HOW GAME WILL PROGRESS
-
 
   /*
   STATE GLOBALS
@@ -51,6 +52,8 @@ jQuery( document ).ready(function($) {
   document.getElementById('missed-output').appendChild(missedCirclesLogNode);
   var accuracyLogNode = document.createTextNode('0');
   document.getElementById('accuracy-output').appendChild(accuracyLogNode);
+  var difficultyNode = document.createTextNode(' ');
+  document.getElementById('difficulty').appendChild(difficultyNode);
 
   // FIND ALL MODAL ELEMENTS NEEDED FOR DISPLAYING AND CONDITIONS
   var modalArea = document.getElementById("modal-area");
@@ -158,6 +161,19 @@ jQuery( document ).ready(function($) {
     } else {
       return false;
     }
+  }
+
+  // CHECK FOR SELECTED DIFFICULTY
+  function hasChosenDifficulty () {
+    if (madnessElement.checked === false &&
+        hardElement.checked === false &&
+        normalElement.checked === false &&
+        easyElement.checked === false) {
+          difficultyNode.data = "Please select a difficulty";
+    } else {
+      return true;
+    }
+    return false;
   }
 
   /*
@@ -299,6 +315,11 @@ jQuery( document ).ready(function($) {
 
   // ACTIVATE GAME
   function play () {
+    // ENSURE THERE IS A CHOSEN DIFFICULTY
+    if(!hasChosenDifficulty()) {
+      return false;
+    }
+    // SET GAME AS ACTIVE
     gameActive = 1;
     // CHECK FOR MADNESS MODE
     if (document.getElementById('madness').checked) {
@@ -357,34 +378,37 @@ jQuery( document ).ready(function($) {
   function game () {
     // TIMING INTERVAL FUNCTION
     timerId = window.setInterval((function(){
-      // GAME CONDITIONS
       return function() {
         // SET timeNode AND INCREMENT GAME TIME
         time++;
         timeNode.data = time;
-        // FIRST LEVEL, LARGE CIRCLES ONLY (EASY)
-        if (time <= 15) {
+        // GAME CONDITIONS
+        if (time < 10) {
           largeCircle();
         }
-        // SECOND LEVEL, LARGE AND MEDIUM CIRCLES (NORMAL)
-        if (time > 15 && time <= 30) {
+        if (time >= 10 && time < 20) {
+          largeCircle();
+          largeCircle();
+        }
+        if (time >= 20 && time < 30) {
+          mediumCircle();
+          largeCircle();
+        }
+        if (time >= 30 && time < 40) {
+          mediumCircle();
           mediumCircle();
         }
-        // THIRD LEVEL, ALL CIRCLES (HARD)
-        if (time > 30 && time <= 45) {
+        if (time >= 40 && time < 50) {
+          mediumCircle();
           smallCircle();
         }
-        // FOURTH LEVEL, MEDIUM AND SMALL CIRCLES (DIFFICULT)
-        if (time > 45 && time <= 60) {
-          gameEnd();
-        }
-        // FIFTH LEVEL, SMALL CIRCLES ONLY (EXTREME)
-        if (time > 60 && time <= 80) {
-
+        if (time >= 50 && time < 60) {
+          smallCircle();
+          smallCircle();
         }
         // END GAME
-        if (time >= 100) {
-
+        if (time === 60) {
+          gameEnd();
         }
         return true;
       };
@@ -438,7 +462,9 @@ jQuery( document ).ready(function($) {
     if (isCheckBox(event)) {
       return true;
     }
+
     event.preventDefault();
+
     // INITIALIZE GAME
     if (id === "play-button" || id === "play-button2") {
       play();
