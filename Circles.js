@@ -6,13 +6,8 @@ jQuery( document ).ready(function($) {
 
    // ADD TRACKING FOR HIGH SCORE AND GAMES PLAYED. STORE AS COOKIE/LOCAL/SESSION
 
-   // ADD DIFFICULTY CHECK FOR NON-MADNESS MODE (circleLifetime to 1000 HARD 2000 NORMAL 3000 EASY)
-
-   // IF IN MADNESS MODE, REMOVE OPTION FOR DIFFICULTY
-
    // FINALIZE HOW GAME WILL PROGRESS
 
-   // REMOVE WINDOW RESIZE FUNCTION IF UNEEDED (at end)
 
   /*
   STATE GLOBALS
@@ -40,10 +35,8 @@ jQuery( document ).ready(function($) {
   var score = 0;
   var time = 0;
   var timerId = 0;
-  var timerId2 = 0; //not in use right now
-  var interval = 1000; // not in use right now
 
-  // CREATE ALL INFORMATION NODES AND APPEND ELEMENT
+  // CREATE ALL INFORMATION NODES AND APPEND ELEMENTS
   var timeNode = document.createTextNode('0');
   document.getElementById('timer').appendChild(timeNode);
   var scoreNode = document.createTextNode('0');
@@ -59,13 +52,15 @@ jQuery( document ).ready(function($) {
   var accuracyLogNode = document.createTextNode('0');
   document.getElementById('accuracy-output').appendChild(accuracyLogNode);
 
-  // var width = window.innerWidth;
-  // var height = window.innerHeight;
-
+  // FIND ALL MODAL ELEMENTS NEEDED FOR DISPLAYING AND CONDITIONS
   var modalArea = document.getElementById("modal-area");
   var modalPlay = document.getElementById("modal-play");
   var modalScore = document.getElementById("modal-score");
   var modalOverlay = document.getElementById("modal-overlay");
+  var madnessElement = document.getElementById("madness");
+  var easyElement = document.getElementById("easy");
+  var normalElement = document.getElementById("normal");
+  var hardElement = document.getElementById("hard");
 
   /*
   HELPER FUNCTIONS
@@ -82,12 +77,6 @@ jQuery( document ).ready(function($) {
           }
       }
   }
-
-  // ADJUSTMENT FUNCTION FOR WINDOW SIZE
-  // const onresize = e => {
-  //    width = e.target.innerWidth;
-  //    height = e.target.innerHeight;
-  // }
 
   // RANDOM %-NUMBER FUNCTIONS
   function randomNum () {
@@ -170,7 +159,7 @@ jQuery( document ).ready(function($) {
       return false;
     }
   }
-  
+
   /*
   CIRCLE GENERATION FUNCTIONS
    */
@@ -351,7 +340,12 @@ jQuery( document ).ready(function($) {
     clicksLogNode.data = smallClicked + mediumClicked + largeClicked;
     missedCirclesLogNode.data = (smallCount - smallClicked) + (mediumCount - mediumClicked) + (largeCount - largeClicked);
     let accuracy = (((smallClicked + mediumClicked + largeClicked) / (smallClicked + mediumClicked + largeClicked + misClicks)) * 100)
-    accuracyLogNode.data = Math.round(accuracy * 100) / 100;
+    // ENSURE ACCURACY IS A VALID NUMBER
+    if (accuracy) {
+      accuracyLogNode.data = Math.round(accuracy * 100) / 100;
+    } else {
+      accuracyLogNode.data = 0;
+    }
     // OPEN SCORE MODAL
     modalScore.classList.remove("hidden");
     modalOverlay.classList.remove("hidden");
@@ -402,42 +396,6 @@ jQuery( document ).ready(function($) {
   EVENT LISTENERS
    */
 
-  // ADDING EVENT LISTENER TO WINDOW FOR RESIZING
-  // window.addEventListener("resize", onresize);
-
-  // ADDING EVENT LISTENER TO FIELD FOR CLICK ACCURACY
-  let field = document.getElementById('field');
-  field.addEventListener('click', function(event) {
-    // EXCEPTION FOR CHECKBOXES
-    if (isCheckBox(event)) {
-      return true;
-    }
-    event.preventDefault();
-    // LOG MISSED CLICK
-    if (gameActive && event.target.id === "field") {
-      misClicks++;
-    }
-    return true;
-  });
-
-  // ADDING EVENT LISTENER TO PLAY BUTTON [MODAL-PLAY]
-  let playBtn = document.getElementById('play-button');
-  playBtn.addEventListener('click', function(event) {
-    event.preventDefault();
-    // INITIALIZE GAME
-    play();
-    return true;
-  });
-
-  // ADDING EVENT LISTENER TO PLAY BUTTON [MODAL-SCORE]
-  let playBtn2 = document.getElementById('play-button2');
-  playBtn2.addEventListener('click', function(event) {
-    event.preventDefault();
-    // INITIALIZE GAME
-    play();
-    return true;
-  });
-
   // ADDING EVENT LISTENER TO PAGE TO DISABLE/PREVENT TEXT HIGHLIGHTING
   $('html, body').bind('pointerup pointerdown mouseup mousedown', function(event) {
     // EXCEPTION FOR CHECKBOXES
@@ -445,6 +403,50 @@ jQuery( document ).ready(function($) {
       return true;
     }
     event.preventDefault();
+    return true;
+  });
+
+  // ADDING EVENT LISTENER TO DOCUMENT TO CAPTURE PLAY BUTTONS,
+  // LOG ACCURACY, AND DETERMINE DIFFICULTY
+  document.addEventListener('click', function(event) {
+    let id = event.target.id;
+    // GAME DIFFICULTIES
+    if (id === "easy") {
+      circleLifetime = 3000;
+      madnessElement.checked = false;
+      hardElement.checked = false;
+      normalElement.checked = false;
+    }
+    if (id === "normal") {
+      circleLifetime = 2000;
+      madnessElement.checked = false;
+      hardElement.checked = false;
+      easyElement.checked = false;
+    }
+    if (id === "hard") {
+      circleLifetime = 1000;
+      madnessElement.checked = false;
+      normalElement.checked = false;
+      easyElement.checked = false;
+    }
+    if (id === "madness") {
+      hardElement.checked = false;
+      normalElement.checked = false;
+      easyElement.checked = false;
+    }
+    // EXCEPTION FOR CHECKBOXES
+    if (isCheckBox(event)) {
+      return true;
+    }
+    event.preventDefault();
+    // INITIALIZE GAME
+    if (id === "play-button" || id === "play-button2") {
+      play();
+    }
+    // LOG MISSED CLICKS
+    if (gameActive && id === "field") {
+      misClicks++;
+    }
     return true;
   });
 

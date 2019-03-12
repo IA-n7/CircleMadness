@@ -48,7 +48,9 @@ html {
 #text-play {
   padding-bottom: 20px !important;
   text-align: center;
-  margin-top: -35px;
+}
+#text-play > p {
+  padding-bottom: 0px !important;
 }
 #text-score {
   padding-bottom: 20px !important;
@@ -145,15 +147,13 @@ html {
 /* CHECKBOXES */
 input[type=checkbox] + label {
   display: block;
-  margin: 0.2em;
+  margin: 1px;
   cursor: pointer;
-  padding: 0.2em;
+  padding: 1px;
 }
-
 input[type=checkbox] {
   display: none;
 }
-
 input[type=checkbox] + label:before {
   content: "\2714";
   border: 0.1em solid #000;
@@ -168,22 +168,18 @@ input[type=checkbox] + label:before {
   color: transparent;
   transition: .2s;
 }
-
 input[type=checkbox] + label:active:before {
   transform: scale(0);
 }
-
 input[type=checkbox]:checked + label:before {
   background-color: DeepSkyBlue;
   border-color: DeepSkyBlue;
   color: #fff;
 }
-
 input[type=checkbox]:disabled + label:before {
   transform: scale(1);
   border-color: #aaa;
 }
-
 input[type=checkbox]:checked:disabled + label:before {
   transform: scale(1);
   background-color: #bfb;
